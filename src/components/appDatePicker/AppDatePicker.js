@@ -286,6 +286,7 @@ class AppDatePicker extends Component {
             ["دی", "بهمن", "اسفند"]];
 
         return (
+            <div className="date-picker-box">
             <div
                 className="input-calendar"
                 onMouseEnter={() => this.setState({open: true})}
@@ -328,6 +329,7 @@ class AppDatePicker extends Component {
                                         break;
                                     case 2:
                                         return (<input
+                                            disabled={true}
                                             type="number"
                                             id="year-input"
                                             value={this.state.year}
@@ -407,6 +409,7 @@ class AppDatePicker extends Component {
                         امروز
                     </button>
                 </div>
+            </div>
             </div>
         );
     }
