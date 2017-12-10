@@ -1,18 +1,16 @@
 import React, {Component} from "react";
-
-import "./date.css";
-
+import "./style.css";
 
 class AppDatePicker extends Component {
-    t = new Date();
+    currentDate = new Date();
     state = {
         level: 1,
         open: false,
-        toDay: this.g2j(this.t.getFullYear(), this.t.getMonth() + 1, this.t.getDate()),
+        toDay: this.g2j(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate()),
         jToday: "",
         show: "",
-        month: this.g2j(this.t.getFullYear(), this.t.getMonth() + 1, this.t.getDate())[1],
-        year: this.g2j(this.t.getFullYear(), this.t.getMonth() + 1, this.t.getDate())[0]
+        month: this.g2j(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate())[1],
+        year: this.g2j(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate())[0]
     };
 
     componentWillReceiveProps(nextProps) {
@@ -103,7 +101,6 @@ class AppDatePicker extends Component {
             jToday = this.week((new Date(this.j2g(a[0], a[1], a[2])).getDay() + 1) % 7) + ` ${a[2]} ` + this.month(a[1]) + ` ${a[0]} `;
         this.setState({toDay: a, month: a[1], year: a[0]});
         g.forEach((b, k) => k === 0 ? gToday += `${b}` : gToday += `-${b}`);
-        gToday += " 00:00:00";
         this.setState({jToday});
         if (initial) {
             this.props.onChange(gToday, this.props.id);
@@ -287,92 +284,112 @@ class AppDatePicker extends Component {
 
         return (
             <div className="date-picker-box">
-            <div
-                className="input-calendar"
-                onMouseEnter={() => this.setState({open: true})}
-                onMouseLeave={() => this.setState({open: false})}
-            >
-                <input
-                    placeholder="انتخاب کنید"
-                    onFocus={() => this.setState({show: " show"})}
-                    onBlur={this.handleCalendar}
-                    value={this.state.jToday}
-                    readOnly
-                    ref={(input) => {
-                        this.textInput = input;
-                    }}
-                />
-                <div className={`calendar-box${this.state.show}`}>
-                    <div className="calendar-box-title">
-                        <div
-                            className="click"
-                            onClick={() => this.handleMonth(-1)}
-                        >
-                            <div>-</div>
-                        </div>
-                        <div
-                            className="click text-month"
-                            onClick={this.handleYear}
-                        >
-                            {(() => {
-                                switch (this.state.level) {
-                                    case 1:
-                                        return (
-                                            <div className="middle-text">
+                <div
+                    className="input-calendar"
+                    onMouseEnter={() => this.setState({open: true})}
+                    onMouseLeave={() => this.setState({open: false})}
+                >
+                    <input
+                        className='input'
+                        placeholder="انتخاب کنید"
+                        onFocus={() => this.setState({show: " show"})}
+                        onBlur={this.handleCalendar}
+                        value={this.state.jToday}
+                        readOnly
+                        ref={(input) => {
+                            this.textInput = input;
+                        }}
+                    />
+                    <div className={`calendar-box${this.state.show}`}>
+                        <div className="calendar-box-title">
+                            <div
+                                className="click"
+                                onClick={() => this.handleMonth(-1)}
+                            >
+                                <div>-</div>
+                            </div>
+                            <div
+                                className="click text-month"
+                                onClick={this.handleYear}
+                            >
+                                {(() => {
+                                    switch (this.state.level) {
+                                        case 1:
+                                            return (
+                                                <div className="middle-text">
                                                 <span>
                                                     {this.month(this.state.month)}
                                                 </span>
-                                                <span>
+                                                    <span>
                                                     {this.state.year}
                                                 </span>
-                                            </div>);
-                                        break;
-                                    case 2:
-                                        return (<input
-                                            disabled={true}
-                                            type="number"
-                                            id="year-input"
-                                            value={this.state.year}
-                                            onChange={e => this.setState({year: parseInt(e.target.value)})}
-                                            onBlur={this.handleSelectYear}
-                                        />);
-                                        break;
-                                }
-                            })()}
+                                                </div>);
+                                            break;
+                                        case 2:
+                                            return (<input
+                                                disabled={true}
+                                                type="number"
+                                                id="year-input"
+                                                value={this.state.year}
+                                                onChange={e => this.setState({year: parseInt(e.target.value)})}
+                                                onBlur={this.handleSelectYear}
+                                            />);
+                                            break;
+                                    }
+                                })()}
+                            </div>
+                            <div
+                                className="click"
+                                onClick={() => this.handleMonth(1)}
+                            >
+                                <div>+</div>
+                            </div>
                         </div>
-                        <div
-                            className="click"
-                            onClick={() => this.handleMonth(1)}
-                        >
-                            <div>-</div>
-                        </div>
-                    </div>
-                    {(() => {
-                        switch (this.state.level) {
-                            case 1:
-                                return (
-                                    <table className="calendar-table">
-                                        <thead>
-                                        <tr>
-                                            <th>ش</th>
-                                            <th>ی</th>
-                                            <th>د</th>
-                                            <th>س</th>
-                                            <th>چ</th>
-                                            <th>پ</th>
-                                            <th>ج</th>
-                                        </tr>
-                                        </thead>
+                        {(() => {
+                            switch (this.state.level) {
+                                case 1:
+                                    return (
+                                        <table className="calendar-table">
+                                            <thead>
+                                            <tr>
+                                                <th>ش</th>
+                                                <th>ی</th>
+                                                <th>د</th>
+                                                <th>س</th>
+                                                <th>چ</th>
+                                                <th>پ</th>
+                                                <th>ج</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {this.weekCreator(this.state.year, this.state.month).map((a, k) =>
+                                                (<tr key={k}>
+                                                    {a.map((b, x) =>
+                                                        (<td
+                                                            key={x * 100}
+                                                            negative={x % 12 === 6}
+                                                            className={`${(b === "" || ((this.state.year > this.state.max[0] || this.state.year < this.state.min[0]) || ((this.state.year === this.state.max[0] && this.state.month > this.state.max[1]) || (this.state.year === this.state.min[0] && this.state.month < this.state.min[1])) || ((this.state.year === this.state.max[0] && this.state.month === this.state.max[1] && b > this.state.max[2]) || (this.state.year === this.state.min[0] && this.state.month === this.state.min[1] && b < this.state.min[2])))) && " disable-day"}
+																			${(this.state.toDay[0] === this.state.year && this.state.toDay[1] === this.state.month && this.state.toDay[2] === b) && " to-day"}`}
+                                                            onClick={() => this.handleSelectDay([this.state.year, this.state.month, b])}
+                                                        >
+                                                            {b}
+                                                        </td>)
+                                                    )}
+                                                </tr>)
+                                            )}
+                                            </tbody>
+                                        </table>);
+                                    break;
+                                case 2:
+                                    return (<table celled className="calendar-table">
                                         <tbody>
-                                        {this.weekCreator(this.state.year, this.state.month).map((a, k) =>
+                                        {m.map((a, k) =>
                                             (<tr key={k}>
                                                 {a.map((b, x) =>
                                                     (<td
                                                         key={x * 100}
-                                                        negative={x % 12 === 6}
-                                                        className={`${(b === "" || ((this.state.year > this.state.max[0] || this.state.year < this.state.min[0]) || ((this.state.year === this.state.max[0] && this.state.month > this.state.max[1]) || (this.state.year === this.state.min[0] && this.state.month < this.state.min[1])) || ((this.state.year === this.state.max[0] && this.state.month === this.state.max[1] && b > this.state.max[2]) || (this.state.year === this.state.min[0] && this.state.month === this.state.min[1] && b < this.state.min[2])))) && " disable-day"}
-																			${(this.state.toDay[0] === this.state.year && this.state.toDay[1] === this.state.month && this.state.toDay[2] === b) && " to-day"}`}
-                                                        onClick={() => this.handleSelectDay([this.state.year, this.state.month, b])}
+                                                        className={`${(this.state.toDay[0] === this.state.year && this.state.toDay[1] === ((a.length * k) + (x + 1))) && " to-day"}`}
+                                                        onClick={() => this.handleSelectMonth((a.length * k) + (x + 1))}
                                                     >
                                                         {b}
                                                     </td>)
@@ -381,39 +398,18 @@ class AppDatePicker extends Component {
                                         )}
                                         </tbody>
                                     </table>);
-                                break;
-                            case 2:
-                                return (<table celled className="calendar-table">
-                                    <tbody>
-                                    {m.map((a, k) =>
-                                        (<tr key={k}>
-                                            {a.map((b, x) =>
-                                                (<td
-                                                    key={x * 100}
-                                                    className={`${(this.state.toDay[0] === this.state.year && this.state.toDay[1] === ((a.length * k) + (x + 1))) && " to-day"}`}
-                                                    onClick={() => this.handleSelectMonth((a.length * k) + (x + 1))}
-                                                >
-                                                    {b}
-                                                </td>)
-                                            )}
-                                        </tr>)
-                                    )}
-                                    </tbody>
-                                </table>);
-                        }
-                    })()}
-                    <button
-                        className="to-day-select"
-                        onClick={() => this.handleSelectDay(this.g2j(this.t.getFullYear(), this.t.getMonth() + 1, this.t.getDate()))}
-                    >
-                        امروز
-                    </button>
+                            }
+                        })()}
+                        <button
+                            className="to-day-select"
+                            onClick={() => this.handleSelectDay(this.g2j(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, this.currentDate.getDate()))}
+                        >
+                            امروز
+                        </button>
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }
 }
-
-
 export default AppDatePicker;

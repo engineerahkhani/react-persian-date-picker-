@@ -16,8 +16,8 @@ class App extends Component {
                 <div className="App-intro">
                     <DatePiker
                         onChange={this.handleSelect}
-                        max="2019-06-22"
-                        min="2016-12-10"
+                        max="2017-12-10"
+                        min="2017-10-10"
                     />
                 </div>
             </div>
